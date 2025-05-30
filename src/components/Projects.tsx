@@ -1,185 +1,112 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { projects } from "./projects/projectsData";
+import ProjectCard from "./projects/ProjectCard";
+import ScrollFloat from "@/TextAnimations/ScrollFloat/ScrollFloat";
+import SpotlightCard from "./SpotlightCard/SpotlightCard";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  {
-    title: "Rejuuv Marketplace",
-    description:
-      "A platform revolutionizing the spa and massage industry in the USA by connecting providers, professionals, and customers.",
-    tech: ["React.js", "Next.js", "Redux", "Context API", "Express.js"],
-    image:
-      "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=500&fit=crop",
-    link: "#",
-  },
-  {
-    title: "Happy Kamper",
-    description:
-      "An innovative platform connecting activity providers with parents in Indonesia, making it easy to find enriching experiences for children.",
-    tech: ["React Native", "Redux", "Node.js", "MongoDB"],
-    image:
-      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=500&fit=crop",
-    link: "#",
-  },
-  {
-    title: "Let's Go",
-    description:
-      "A comprehensive travel planning and booking platform with real-time updates and personalized recommendations.",
-    tech: ["Angular", "NgRx", "Express.js", "MongoDB"],
-    image:
-      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=500&fit=crop",
-    link: "#",
-  },
-  // {
-  //   title: "Interactive Data Visualization",
-  //   description:
-  //     "A data visualization project that transforms complex datasets into interactive, intuitive charts and graphs for better insights.",
-  //   tech: ["D3.js", "React", "Node.js", "Express"],
-  //   image:
-  //     "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=500&fit=crop",
-  //   link: "#",
-  // },
-  // {
-  //   title: "3D Product Configurator",
-  //   description:
-  //     "An interactive 3D product configurator allowing users to customize products in real-time with color and feature options.",
-  //   tech: ["Three.js", "React", "GSAP", "WebGL"],
-  //   image:
-  //     "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=500&fit=crop",
-  //   link: "#",
-  // },
-];
-
-const ProjectCard: React.FC<{
-  project: (typeof projects)[0];
-  index: number;
-}> = ({ project, index }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-
-    if (card) {
-      gsap.fromTo(
-        card,
-        {
-          opacity: 0,
-          y: 50,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.2,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }
-  }, [index]);
-
-  return (
-    <div
-      ref={cardRef}
-      className="glass-morphism rounded-xl overflow-hidden group transition-all duration-300 hover:translate-y-[-5px] hover:shadow-lg hover:shadow-accent/20"
-    >
-      <div className="h-48 overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
-      </div>
-      <div className="p-6">
-        <h3 className="text-xl font-bold mb-3 text-gradient-blue">
-          {project.title}
-        </h3>
-        <p className="text-foreground/70 mb-4 text-sm">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {project.tech.map((tech) => (
-            <span
-              key={tech}
-              className="px-2 py-1 text-xs font-medium bg-foreground/10 rounded-full text-foreground/80"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-        <a
-          href={project.link}
-          className="inline-block text-accent hover:text-accent/80 text-sm font-medium transition-colors"
-        >
-          View Project →
-        </a>
-      </div>
-    </div>
-  );
-};
 
 const Projects: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const introRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
     const intro = introRef.current;
+    const cards = cardsRef.current;
 
     if (section && heading && intro) {
+      // Animate heading
       gsap.fromTo(
         heading,
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-
-      gsap.fromTo(
-        intro,
         { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
-          delay: 0.2,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: section,
             start: "top 80%",
-            toggleActions: "play none none none",
+            toggleActions: "play reverse play reverse",
           },
         }
       );
+
+      // Animate intro text
+      gsap.fromTo(
+        intro,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+
+      // Animate project cards with stagger
+      cards.forEach((card, index) => {
+        if (card) {
+          gsap.fromTo(
+            card,
+            {
+              opacity: 0,
+              y: 50,
+              scale: 0.95,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              delay: index * 0.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play reverse play reverse",
+              },
+            }
+          );
+        }
+      });
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="py-24 px-6 md:px-12 bg-background relative"
+      className="py-12 sm:py-16 md:py-20 px-4 sm:px-8 bg-gradient-to-b from-background to-secondary/5"
     >
-      {/* Background gradient */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-secondary/10 to-background pointer-events-none"></div>
-
       <div className="container mx-auto">
         <h2
           ref={headingRef}
-          className="text-3xl md:text-4xl font-bold mb-6 text-center"
+          className="text-3xl md:text-4xl font-bold mb-8 sm:mb-12 text-center"
         >
-          <span className="text-gradient">Featured Projects</span>
+          <ScrollFloat
+            animationDuration={1}
+            ease='back.inOut(2)'
+            scrollStart='center bottom+=40%'
+            scrollEnd='bottom bottom-=30%'
+            stagger={0.03}
+          >
+            Featured Projects
+          </ScrollFloat>
         </h2>
 
         <p
@@ -192,17 +119,18 @@ const Projects: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
+            <div
+              key={project.title}
+              className="w-full"
+            >
+              <SpotlightCard
+                className="glass-morphism p-0 sm:p-0 rounded-lg flex-1 min-w-[100px]"
+                spotlightColor="rgba(0, 229, 255, 0.2)"
+              >
+                <ProjectCard project={project} index={index} />
+              </SpotlightCard>
+            </div>
           ))}
-        </div>
-
-        <div className="text-center mt-16">
-          <a
-            href="#"
-            className="px-8 py-3 bg-accent hover:bg-accent/80 text-white font-medium rounded-full transition-colors duration-300 inline-block"
-          >
-            View All Projects
-          </a>
         </div>
       </div>
     </section>

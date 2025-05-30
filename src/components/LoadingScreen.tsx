@@ -54,7 +54,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   }, [onLoadingComplete]);
 
   return (
-    <div 
+    <div
       ref={loadingRef}
       className="fixed inset-0 flex flex-col items-center justify-center bg-background z-50"
     >

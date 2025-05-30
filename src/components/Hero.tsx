@@ -1,7 +1,19 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo, useCallback, Suspense } from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
-import Scene3D from "./Scene3D";
+import FuzzyText from "../TextAnimations/FuzzyText/FuzzyText";
+import ShinyText from "../TextAnimations/ShinyText/ShinyText";
+import BlurText from "../TextAnimations/BlurText/BlurText";
+import TextPressure from "../TextAnimations/TextPressure/TextPressure";
+
+// Lazy load components
+const LazyMagnetLines = React.lazy(() => import("../Animations/MagnetLines/MagnetLines"));
+
+// Preload critical images
+const preloadImage = (src: string) => {
+  const img = new Image();
+  img.src = src;
+};
 
 const Hero: React.FC = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -9,66 +21,20 @@ const Hero: React.FC = () => {
   const ctaRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isAnimationsReady, setIsAnimationsReady] = useState(false);
 
-  const backgrounds = [
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920",
-    "https://images.unsplash.com/photo-1484417894907-623942c8ee29?q=80&w=1920",
-    "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=1920",
-  ];
+  const backgrounds = useMemo(() => [
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920"
+  ], []);
 
+  // Preload background image
   useEffect(() => {
-    // Existing animation timeline
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+    backgrounds.forEach(preloadImage);
+  }, [backgrounds]);
 
-    tl.fromTo(
-      titleRef.current,
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, delay: 0.5 }
-    )
-      .fromTo(
-        subtitleRef.current,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1 },
-        "-=0.7"
-      )
-      .fromTo(
-        ctaRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7 },
-        "-=0.5"
-      )
-      .fromTo(
-        arrowRef.current,
-        { y: -20, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          onComplete: () => {
-            gsap.to(arrowRef.current, {
-              y: 10,
-              duration: 1.5,
-              repeat: -1,
-              yoyo: true,
-              ease: "power1.inOut",
-            });
-          },
-        },
-        "-=0.3"
-      );
-
-    // Background slider animation
-    const sliderInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % backgrounds.length);
-    }, 5000); // Change slide every 5 seconds
-
-    return () => {
-      tl.kill();
-      clearInterval(sliderInterval);
-    };
-  }, []);
-
-  const scrollToAbout = () => {
+  const scrollToAbout = useCallback(() => {
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
       window.scrollTo({
@@ -76,87 +42,185 @@ const Hero: React.FC = () => {
         behavior: "smooth",
       });
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!isAnimationsReady) return;
+
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    const elements = {
+      title: titleRef.current,
+      subtitle: subtitleRef.current,
+      cta: ctaRef.current,
+      arrow: arrowRef.current
+    };
+
+    if (elements.title && elements.subtitle && elements.cta && elements.arrow) {
+      tl.fromTo(
+        elements.title,
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, delay: 0.3 }
+      )
+        .fromTo(
+          elements.subtitle,
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 },
+          "-=0.4"
+        )
+        .fromTo(
+          elements.cta,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5 },
+          "-=0.3"
+        )
+        .fromTo(
+          elements.arrow,
+          { y: -10, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            onComplete: () => {
+              gsap.to(elements.arrow, {
+                y: 10,
+                duration: 1.2,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut",
+              });
+            },
+          },
+          "-=0.2"
+        );
+    }
+
+    return () => {
+      tl.kill();
+    };
+  }, [isAnimationsReady]);
+
+  // Set animations ready after image loads
+  useEffect(() => {
+    if (isImageLoaded) {
+      setIsAnimationsReady(true);
+    }
+  }, [isImageLoaded]);
+
+  const MemoizedMagnetLines = useMemo(() => (
+    <Suspense fallback={null}>
+      <LazyMagnetLines
+        rows={8}
+        columns={8}
+        containerSize="100vw"
+        lineColor="rgba(255, 255, 255, 0.2)"
+        lineWidth="2px"
+        lineHeight="20px"
+        baseAngle={-10}
+      />
+    </Suspense>
+  ), []);
+
+  const MemoizedCTA = useMemo(() => (
+    <div
+      ref={ctaRef}
+      className="space-y-4 mt-10 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row"
+    >
+      <a
+        href="#contact"
+        className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+        <div className="relative z-10">
+          <BlurText
+            text="Contact Me"
+            delay={100}
+            animateBy="words"
+            direction="top"
+            className="text-white group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </a>
+      <a
+        href="#projects"
+        className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+        <div className="relative z-10">
+          <BlurText
+            text="View Projects"
+            delay={100}
+            animateBy="words"
+            direction="top"
+            className="text-white group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </a>
+    </div>
+  ), []);
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {/* Animated background layers */}
-      {backgrounds.map((bg, index) => (
+      <div className="absolute inset-0">
+        <img
+          src={backgrounds[currentSlide]}
+          alt="Background"
+          className={`object-cover w-full h-full brightness-75 transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          loading="eager"
+          fetchPriority="high"
+          onLoad={() => setIsImageLoaded(true)}
+          decoding="async"
+          sizes="100vw"
+        />
+      </div>
+
+      <div className="absolute inset-0 z-5 opacity-30 pointer-events-none">
+        {MemoizedMagnetLines}
+      </div>
+
+      <div className="absolute inset-0 hero-gradient z-10">
+        <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>
+        <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-background/20 to-transparent"></div>
+
+        <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-accent/20 filter blur-3xl opacity-30 animate-spin-slow"></div>
         <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000`}
-          style={{
-            opacity: index === currentSlide ? 1 : 0,
-          }}
-        >
-          <img
-            src={bg}
-            alt={`Background ${index + 1}`}
-            className="object-cover w-full h-full"
-            loading="lazy"
-          />
-        </div>
-      ))}
+          className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-accent/20 filter blur-3xl opacity-30 animate-spin-slow"
+          style={{ animationDirection: "reverse", animationDuration: "15s" }}
+        ></div>
+      </div>
 
-      {/* Canvas for 3D Scene */}
-      {currentSlide === 0 && (
-        <div className="absolute inset-0 z-0">
-          <Scene3D />
-        </div>
-      )}
-      {/* <div className="absolute inset-0 z-0">
-        <Scene3D />
-      </div> */}
-
-      {/* Dark overlay for better text readability */}
-      <div className="absolute inset-0 bg-black/50 z-5"></div>
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 hero-gradient z-10"></div>
-
-      {/* Content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 sm:px-6 text-center">
         <h1
           ref={titleRef}
-          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 text-gradient"
+          className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
         >
-          <span>Jay Sarvaiya</span>
+          <FuzzyText
+            baseIntensity={0.2}
+            hoverIntensity={0.5}
+            enableHover={true}
+          >
+            Jay Sarvaiya
+          </FuzzyText>
         </h1>
 
-        <p
-          ref={subtitleRef}
-          className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 max-w-xl text-foreground/80"
-        >
-          Software Developer
-        </p>
+        <TextPressure
+          text="Software Developer"
+          width={true}
+          weight={true}
+          italic={true}
+          alpha={true}
+        />
 
-        <div
-          ref={ctaRef}
-          className="space-y-4 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row"
-        >
-          <a
-            href="mailto:jay32402@gmail.com"
-            className="px-6 py-3 bg-accent hover:bg-accent/80 text-white font-medium rounded-full transition-colors duration-300"
-          >
-            Contact Me
-          </a>
-          <a
-            href="#projects"
-            className="px-6 py-3 bg-transparent border border-foreground/20 hover:bg-foreground/10 text-foreground font-medium rounded-full transition-colors duration-300"
-          >
-            View Projects
-          </a>
-        </div>
+        {MemoizedCTA}
       </div>
 
-      {/* Scroll down indicator */}
       <div
         ref={arrowRef}
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 cursor-pointer"
         onClick={scrollToAbout}
       >
         <ArrowDown
-          className="text-foreground/70 animate-bounce-slow"
+          className="text-white glow-on-hover p-2 rounded-full"
           size={32}
         />
       </div>
@@ -164,4 +228,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default React.memo(Hero);

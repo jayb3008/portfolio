@@ -1,6 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ScrollFloat from "@/TextAnimations/ScrollFloat/ScrollFloat";
+import ScrollReveal from "@/TextAnimations/ScrollReveal/ScrollReveal";
+import SpotlightCard from "./SpotlightCard/SpotlightCard";
+import DecayCard from "./DecayCard/DecayCard";
+import Squares from "@/Backgrounds/Squares/Squares";
+import TiltedCard from "./TiltedCard/TiltedCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,92 +94,118 @@ const About: React.FC = () => {
       ref={sectionRef}
       className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 bg-background relative overflow-hidden"
     >
-      {/* Sticky Background Image */}
-      <div
-        ref={backgroundRef}
-        className="fixed inset-0 w-full h-full z-0"
-        style={{
-          backgroundImage:
-            'url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920")',
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          opacity: 0.2,
-        }}
-      ></div>
+      <div className="absolute inset-0 z-0 opacity-20">
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-background/90 z-1"></div>
-
-      {/* Background gradient - adjusted z-index */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background to-secondary/10 pointer-events-none z-2"></div>
-
+        <Squares
+          speed={0.5}
+          squareSize={40}
+          direction='diagonal' // up, down, left, right, diagonal
+          borderColor='#fff'
+          hoverFillColor='#222'
+        />
+      </div>
       {/* Content container - increased z-index */}
       <div className="container mx-auto relative z-10">
         <h2
           ref={headingRef}
           className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-16 text-center"
         >
-          <span className="text-gradient">About Me</span>
+
+          <ScrollFloat
+            animationDuration={1}
+            ease='back.inOut(2)'
+            scrollStart='center bottom+=50%'
+            scrollEnd='bottom bottom-=40%'
+            stagger={0.03}
+          >
+
+            About Me
+          </ScrollFloat>
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           <div ref={contentRef} className="text-left order-2 md:order-1">
-            <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gradient-blue">
-              Software Developer & Frontend Specialist
-            </h3>
-            <p className="mb-4 sm:mb-6 text-base sm:text-lg text-foreground/80">
+            <ScrollReveal
+              baseOpacity={0}
+              enableBlur={true}
+              baseRotation={5}
+              blurStrength={10}
+            >
               Hello! I'm Jay, a passionate software developer with over 3 years
               of experience in frontend and full-stack development. I specialize
               in building modern, responsive applications using React.js,
               Next.js, and Angular, with a strong focus on creating seamless
               user experiences.
-            </p>
-            <p className="mb-6 sm:mb-8 text-base sm:text-lg text-foreground/80">
+            </ScrollReveal>
+            <ScrollReveal
+              baseOpacity={0}
+              enableBlur={true}
+              baseRotation={5}
+              blurStrength={10}
+            >
               My expertise lies in developing scalable frontend solutions,
               implementing state management with Redux and NgRx, and creating
               cross-platform mobile applications using React Native. I'm
               committed to writing clean, maintainable code and staying updated
               with the latest technologies.
-            </p>
+            </ScrollReveal>
             <div className="flex flex-wrap gap-4">
-              <div className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]">
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   3+
                 </h4>
                 <p className="text-foreground/70 text-xs sm:text-sm">
                   Years Experience
                 </p>
-              </div>
-              <div className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]">
+              </SpotlightCard>
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   15+
                 </h4>
                 <p className="text-foreground/70 text-xs sm:text-sm">
                   Projects Completed
                 </p>
-              </div>
-              <div className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]">
+              </SpotlightCard>
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   8+
                 </h4>
                 <p className="text-foreground/70 text-xs sm:text-sm">
                   Technologies Mastered
                 </p>
-              </div>
+              </SpotlightCard>
             </div>
           </div>
 
           <div className="relative mx-auto order-1 md:order-2 md:ml-auto mb-8 md:mb-0">
-            <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-accent/20 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 filter blur-2xl"></div>
-            <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 relative overflow-hidden rounded-full border-4 border-white/10 glass-morphism">
+            {/* <div className="relative overflow-hidden  border-4 border-white/10 glass-morphism">
               <img
                 ref={imageRef}
                 src="profile.jpg"
                 alt="Jay Sarvaiya - Software Developer"
                 className="w-full h-full object-cover"
               />
-            </div>
+            </div> */}
+            <TiltedCard
+              imageSrc="profile.jpg"
+              altText="Jay Sarvaiya - Software Developer"
+              captionText=""
+              containerHeight="300px"
+              containerWidth="300px"
+              imageHeight="300px"
+              imageWidth="300px"
+              rotateAmplitude={12}
+              scaleOnHover={1.2}
+              showMobileWarning={false}
+              showTooltip={false}
+              displayOverlayContent={true}
+              overlayContent={
+                <p className="tilted-card-demo-text">
+                </p>
+              }
+              imageClassName="grayscale hover:grayscale-0 transition-all duration-300"
+            />
+
           </div>
         </div>
       </div>

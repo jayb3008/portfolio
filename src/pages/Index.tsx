@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import LoadingScreen from "../components/LoadingScreen";
 import NavBar from "../components/NavBar";
 import Hero from "../components/Hero";
-import About from "../components/About";
-import Skills from "../components/Skills";
-import Projects from "../components/Projects";
-import Contact from "../components/Contact";
-import Footer from "../components/Footer";
 import { ThemeProvider } from "../components/ThemeProvider";
-import Experience from "@/components/Experience";
-import ChatBot from "@/components/chatbot/ChatBot";
+
+// Lazy load components
+const About = lazy(() => import("../components/About"));
+const Skills = lazy(() => import("../components/Skills"));
+const Projects = lazy(() => import("../components/Projects"));
+const Contact = lazy(() => import("../components/Contact"));
+const Footer = lazy(() => import("../components/Footer"));
+const Experience = lazy(() => import("@/components/Experience"));
+const ChatBot = lazy(() => import("@/components/chatbot/ChatBot"));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,14 +39,18 @@ const Index = () => {
             <NavBar />
             <main>
               <Hero />
-              <About />
-              <Experience />
-              <Skills />
-              <Projects />
-              <Contact />
+              <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+                <About />
+                <Experience />
+                <Skills />
+                <Projects />
+                <Contact />
+              </Suspense>
             </main>
-            <Footer />
-            <ChatBot />
+            <Suspense fallback={null}>
+              <Footer />
+              <ChatBot />
+            </Suspense>
           </>
         )}
       </div>

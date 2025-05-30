@@ -1,4 +1,3 @@
-
 export interface Technology {
   name: string;
   proficiency: number;
@@ -25,6 +24,15 @@ export const skills = [
       { name: "Next.js", proficiency: 85 },
       { name: "Angular", proficiency: 85 },
       { name: "React Native", proficiency: 80 }
+    ]
+  },
+  {
+    category: "Backend Development",
+    technologies: [
+      { name: "Node.js", proficiency: 85 },
+      { name: "Express.js", proficiency: 85 },
+      { name: "MongoDB", proficiency: 80 },
+      // { name: "SvelteKit", proficiency: 75 }
     ]
   },
   {

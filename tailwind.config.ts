@@ -101,6 +101,27 @@ export default {
                 'fade-in-right': {
                     '0%': { opacity: '0', transform: 'translateX(-20px)' },
                     '100%': { opacity: '1', transform: 'translateX(0)' }
+                },
+                // New animations inspired by reactbits.dev
+                'text-shimmer': {
+                    '0%': { backgroundPosition: '-200% 0' },
+                    '100%': { backgroundPosition: '200% 0' }
+                },
+                'spotlight': {
+                    '0%': { opacity: '0', transform: 'translate(-72%, -62%) scale(0.5)' },
+                    '100%': { opacity: '1', transform: 'translate(-50%, -40%) scale(1)' }
+                },
+                'reveal-text': {
+                    '0%': { width: '0' },
+                    '100%': { width: '100%' }
+                },
+                'glow-pulse': {
+                    '0%, 100%': { boxShadow: '0 0 5px 2px var(--accent)' },
+                    '50%': { boxShadow: '0 0 20px 5px var(--accent)' }
+                },
+                'card-rotate': {
+                    '0%': { transform: 'perspective(1000px) rotateY(0deg)' },
+                    '100%': { transform: 'perspective(1000px) rotateY(10deg)' }
                 }
 			},
 			animation: {
@@ -111,7 +132,13 @@ export default {
                 'spin-slow': 'spin-slow 10s linear infinite',
                 'fade-in': 'fade-in 1s ease-out',
                 'fade-in-up': 'fade-in-up 1s ease-out',
-                'fade-in-right': 'fade-in-right 1s ease-out'
+                'fade-in-right': 'fade-in-right 1s ease-out',
+                // New animation classes
+                'text-shimmer': 'text-shimmer 5s infinite linear',
+                'spotlight': 'spotlight 0.6s ease-out',
+                'reveal-text': 'reveal-text 1s ease-out',
+                'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+                'card-rotate': 'card-rotate 0.5s ease-out forwards'
 			}
 		}
 	},
