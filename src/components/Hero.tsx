@@ -1,4 +1,11 @@
-import React, { useRef, useEffect, useState, useMemo, useCallback, Suspense } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  Suspense,
+} from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
 import FuzzyText from "../TextAnimations/FuzzyText/FuzzyText";
@@ -7,7 +14,9 @@ import BlurText from "../TextAnimations/BlurText/BlurText";
 import TextPressure from "../TextAnimations/TextPressure/TextPressure";
 
 // Lazy load components
-const LazyMagnetLines = React.lazy(() => import("../Animations/MagnetLines/MagnetLines"));
+const LazyMagnetLines = React.lazy(
+  () => import("../Animations/MagnetLines/MagnetLines")
+);
 
 // Preload critical images
 const preloadImage = (src: string) => {
@@ -25,9 +34,12 @@ const Hero: React.FC = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isAnimationsReady, setIsAnimationsReady] = useState(false);
 
-  const backgrounds = useMemo(() => [
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920"
-  ], []);
+  const backgrounds = useMemo(
+    () => [
+      "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1920",
+    ],
+    []
+  );
 
   // Preload background image
   useEffect(() => {
@@ -53,7 +65,7 @@ const Hero: React.FC = () => {
       title: titleRef.current,
       subtitle: subtitleRef.current,
       cta: ctaRef.current,
-      arrow: arrowRef.current
+      arrow: arrowRef.current,
     };
 
     if (elements.title && elements.subtitle && elements.cta && elements.arrow) {
@@ -107,57 +119,46 @@ const Hero: React.FC = () => {
     }
   }, [isImageLoaded]);
 
-  const MemoizedMagnetLines = useMemo(() => (
-    <Suspense fallback={null}>
-      <LazyMagnetLines
-        rows={8}
-        columns={8}
-        containerSize="100vw"
-        lineColor="rgba(255, 255, 255, 0.2)"
-        lineWidth="2px"
-        lineHeight="20px"
-        baseAngle={-10}
-      />
-    </Suspense>
-  ), []);
-
-  const MemoizedCTA = useMemo(() => (
-    <div
-      ref={ctaRef}
-      className="space-y-4 mt-10 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row"
-    >
-      <a
-        href="#contact"
-        className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+  const MemoizedCTA = useMemo(
+    () => (
+      <div
+        ref={ctaRef}
+        className="space-y-4 mt-10 sm:space-y-0 sm:space-x-4 flex flex-col sm:flex-row"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-        <div className="relative z-10">
-          <BlurText
-            text="Contact Me"
-            delay={100}
-            animateBy="words"
-            direction="top"
-            className="text-white group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      </a>
-      <a
-        href="#projects"
-        className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-        <div className="relative z-10">
-          <BlurText
-            text="View Projects"
-            delay={100}
-            animateBy="words"
-            direction="top"
-            className="text-white group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      </a>
-    </div>
-  ), []);
+        <a
+          href="#contact"
+          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <div className="relative z-10">
+            <BlurText
+              text="Contact Me"
+              delay={100}
+              animateBy="words"
+              direction="top"
+              className="text-white group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+        </a>
+        <a
+          href="#projects"
+          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <div className="relative z-10">
+            <BlurText
+              text="View Projects"
+              delay={100}
+              animateBy="words"
+              direction="top"
+              className="text-white group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+        </a>
+      </div>
+    ),
+    []
+  );
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
@@ -165,17 +166,15 @@ const Hero: React.FC = () => {
         <img
           src={backgrounds[currentSlide]}
           alt="Background"
-          className={`object-cover w-full h-full brightness-75 transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`object-cover w-full h-full brightness-75 transition-opacity duration-300 ${
+            isImageLoaded ? "opacity-100" : "opacity-0"
+          }`}
           loading="eager"
           fetchPriority="high"
           onLoad={() => setIsImageLoaded(true)}
           decoding="async"
           sizes="100vw"
         />
-      </div>
-
-      <div className="absolute inset-0 z-5 opacity-30 pointer-events-none">
-        {MemoizedMagnetLines}
       </div>
 
       <div className="absolute inset-0 hero-gradient z-10">
@@ -208,7 +207,7 @@ const Hero: React.FC = () => {
           width={true}
           weight={true}
           italic={true}
-          alpha={true}
+          alpha={false}
         />
 
         {MemoizedCTA}
