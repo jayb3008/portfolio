@@ -16,7 +16,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=500&fit=crop",
     link: "#",
-    type: "web"
+    type: "web",
   },
   {
     title: "Happy Kamper",
@@ -26,7 +26,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=500&fit=crop",
     link: "#",
-    type: "mobile"
+    type: "mobile",
   },
   {
     title: "Let's Go",
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=500&fit=crop",
     link: "#",
-    type: "web"
+    type: "web",
   },
   {
     title: "E-Commerce Platform",
@@ -45,8 +45,8 @@ export const projects: Project[] = [
     tech: ["Next.js", "Node.js", "MongoDB", "Stripe API"],
     image:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=500&fit=crop",
-    link: "#",
-    type: "web"
+    link: "https://e-commerce-orcin-psi-42.vercel.app/",
+    type: "web",
   },
   {
     title: "Task Management App",
@@ -56,17 +56,17 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=500&fit=crop",
     link: "#",
-    type: "web"
+    type: "web",
   },
   {
-    title: "Social Media Dashboard",
+    title: "Code Puzzle",
     description:
-      "A comprehensive social media management dashboard with analytics, scheduling, and content management features.",
-    tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
+      "An interactive coding puzzle game that helps developers learn and practice programming concepts through engaging challenges.",
+    tech: ["React.js", "TypeScript", "Next.js", "Tailwind CSS"],
     image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=500&fit=crop",
-    link: "#",
-    type: "web"
+      "https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=500&fit=crop",
+    link: "https://code-puzzle-sable.vercel.app/",
+    type: "web",
   },
   {
     title: "Fitness Tracking App",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=500&fit=crop",
     link: "#",
-    type: "mobile"
+    type: "mobile",
   },
   {
     title: "Real Estate Platform",
@@ -86,6 +86,6 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=500&fit=crop",
     link: "#",
-    type: "web"
-  }
+    type: "web",
+  },
 ];
