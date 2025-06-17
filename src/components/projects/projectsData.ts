@@ -8,36 +8,7 @@ interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    title: "Rejuuv Marketplace",
-    description:
-      "A platform revolutionizing the spa and massage industry in the USA by connecting providers, professionals, and customers.",
-    tech: ["React.js", "Next.js", "Redux", "Context API", "Express.js"],
-    image:
-      "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=500&fit=crop",
-    link: "#",
-    type: "web",
-  },
-  {
-    title: "Happy Kamper",
-    description:
-      "An innovative platform connecting activity providers with parents in Indonesia, making it easy to find enriching experiences for children.",
-    tech: ["React Native", "Redux", "Node.js", "MongoDB"],
-    image:
-      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=500&fit=crop",
-    link: "#",
-    type: "mobile",
-  },
-  {
-    title: "Let's Go",
-    description:
-      "A comprehensive travel planning and booking platform with real-time updates and personalized recommendations.",
-    tech: ["Angular", "NgRx", "Express.js", "MongoDB"],
-    image:
-      "https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=500&fit=crop",
-    link: "#",
-    type: "web",
-  },
+  
   {
     title: "E-Commerce Platform",
     description:
