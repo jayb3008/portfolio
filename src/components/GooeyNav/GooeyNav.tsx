@@ -336,7 +336,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
               <a
                 href={item.href}
                 onKeyDown={(e) => handleKeyDown(e, index)}
-                className="outline-none"
+                className="outline-none cursor-target"
               >
                 <li
                   key={index}

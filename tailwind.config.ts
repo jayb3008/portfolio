@@ -64,12 +64,22 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				}
 			},
+		
+			
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			keyframes: {
+				'star-movement-bottom': {
+					'0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+					'100%': { transform: 'translate(-100%, 0%)', opacity: '0' },
+				  },
+				  'star-movement-top': {
+					'0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+					'100%': { transform: 'translate(100%, 0%)', opacity: '0' },
+				  },
 				'accordion-down': {
 					from: { height: '0' },
 					to: { height: 'var(--radix-accordion-content-height)' }
@@ -137,8 +147,11 @@ export default {
                 'text-shimmer': 'text-shimmer 5s infinite linear',
                 'spotlight': 'spotlight 0.6s ease-out',
                 'reveal-text': 'reveal-text 1s ease-out',
+				'star-movement-bottom': 'star-movement-bottom linear infinite alternate',
+				'star-movement-top': 'star-movement-top linear infinite alternate',
                 'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
                 'card-rotate': 'card-rotate 0.5s ease-out forwards'
+
 			}
 		}
 	},

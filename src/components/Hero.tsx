@@ -12,6 +12,7 @@ import FuzzyText from "../TextAnimations/FuzzyText/FuzzyText";
 import ShinyText from "../TextAnimations/ShinyText/ShinyText";
 import BlurText from "../TextAnimations/BlurText/BlurText";
 import TextPressure from "../TextAnimations/TextPressure/TextPressure";
+import RippleGrid from "@/Backgrounds/RippleGrid/RippleGrid";
 
 // Lazy load components
 const LazyMagnetLines = React.lazy(
@@ -127,22 +128,23 @@ const Hero: React.FC = () => {
       >
         <a
           href="#contact"
-          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 cursor-target text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          <div className="relative z-10">
+          <div className="relative z-10 ">
             <BlurText
+
               text="Contact Me"
               delay={100}
               animateBy="words"
               direction="top"
-              className="text-white group-hover:scale-105 transition-transform duration-300"
+              className="text-white group-hover:scale-105 transition-transform duration-300 "
             />
           </div>
         </a>
         <a
           href="#projects"
-          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+          className="group px-6 cursor-target py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           <div className="relative z-10">
@@ -163,20 +165,18 @@ const Hero: React.FC = () => {
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          src={backgrounds[currentSlide]}
-          alt="Background"
-          className={`object-cover w-full h-full brightness-75 transition-opacity duration-300 ${
-            isImageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          loading="eager"
-          fetchPriority="high"
-          onLoad={() => setIsImageLoaded(true)}
-          decoding="async"
-          sizes="100vw"
-        />
-      </div>
+      <RippleGrid
+    enableRainbow={false}
+    gridColor="#ffffff"
+    rippleIntensity={0.05}
+    gridSize={10}
+    gridThickness={15}
+    mouseInteraction={true}
+    mouseInteractionRadius={1.2}
+    opacity={0.8}
+  />
 
+      </div>
       <div className="absolute inset-0 hero-gradient z-10">
         <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>
         <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-background/20 to-transparent"></div>

@@ -441,7 +441,7 @@ const Contact: React.FC = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group px-6 py-3 w-full text-center bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+                      className="group px-6 py-3 w-full text-center bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden cursor-target"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 

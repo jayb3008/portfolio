@@ -59,7 +59,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </div>
           <button
             onClick={() => setIsOpen(true)}
-            className="inline-block text-accent hover:text-accent/80 text-sm font-medium transition-colors reveal-border"
+            className="inline-block text-accent hover:text-accent/80 text-sm font-medium transition-colors reveal-border cursor-target"
           >
             <BlurText
               text="View Project →"

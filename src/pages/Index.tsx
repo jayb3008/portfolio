@@ -3,6 +3,8 @@ import LoadingScreen from "../components/LoadingScreen";
 import NavBar from "../components/NavBar";
 import Hero from "../components/Hero";
 import { ThemeProvider } from "../components/ThemeProvider";
+import TargetCursor from "@/Animations/TargetCursor/TargetCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Lazy load components
 const About = lazy(() => import("../components/About"));
@@ -15,6 +17,7 @@ const ChatBot = lazy(() => import("@/components/chatbot/ChatBot"));
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Simulate assets loading
@@ -38,6 +41,14 @@ const Index = () => {
           <>
             <NavBar />
             <main>
+              {
+                !isMobile &&
+
+                <TargetCursor
+                  spinDuration={2}
+                  hideDefaultCursor={true}
+                />
+              }
               <Hero />
               <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
                 <About />

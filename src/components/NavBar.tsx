@@ -156,7 +156,7 @@ const NavBar: React.FC = () => {
         <div className="md:hidden flex items-center">
           <button
             onClick={toggleMobileMenu}
-            className="text-white p-2 ml-2 hover:text-accent transition-colors"
+            className="text-white p-2 ml-2 hover:text-accent transition-colors cursor-target"
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -170,7 +170,7 @@ const NavBar: React.FC = () => {
           <div className="flex justify-end p-4">
             <button
               onClick={toggleMobileMenu}
-              className="text-white p-2 hover:text-accent transition-colors"
+              className="text-white p-2 hover:text-accent transition-colors cursor-target"
               aria-label="Close mobile menu"
             >
               <X size={24} />
