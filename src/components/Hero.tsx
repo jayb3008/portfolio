@@ -8,11 +8,14 @@ import React, {
 } from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
-import FuzzyText from "../TextAnimations/FuzzyText/FuzzyText";
+import Shuffle from "../Animations/Shuffle/Shuffle";
 import ShinyText from "../TextAnimations/ShinyText/ShinyText";
 import BlurText from "../TextAnimations/BlurText/BlurText";
 import TextPressure from "../TextAnimations/TextPressure/TextPressure";
 import RippleGrid from "@/Backgrounds/RippleGrid/RippleGrid";
+import { useTheme } from "./ThemeProvider";
+import Galaxy from "./Galaxy";
+import Ballpit from "./Ballpit";
 
 // Lazy load components
 const LazyMagnetLines = React.lazy(
@@ -30,8 +33,6 @@ const Hero: React.FC = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const arrowRef = useRef<HTMLDivElement>(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isAnimationsReady, setIsAnimationsReady] = useState(false);
 
@@ -128,23 +129,22 @@ const Hero: React.FC = () => {
       >
         <a
           href="#contact"
-          className="group px-6 py-3 bg-transparent border border-white/20 hover:border-white/40 cursor-target text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+          className="group px-6 py-3 bg-transparent border  cursor-target  font-medium rounded-full transition-all duration-300 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           <div className="relative z-10 ">
             <BlurText
-
               text="Contact Me"
               delay={100}
               animateBy="words"
               direction="top"
-              className="text-white group-hover:scale-105 transition-transform duration-300 "
+              className=" group-hover:scale-105 transition-transform duration-300 "
             />
           </div>
         </a>
         <a
           href="#projects"
-          className="group px-6 cursor-target py-3 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+          className="group px-6 cursor-target py-3 bg-transparent border font-medium rounded-full transition-all duration-300 relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
           <div className="relative z-10">
@@ -153,7 +153,7 @@ const Hero: React.FC = () => {
               delay={100}
               animateBy="words"
               direction="top"
-              className="text-white group-hover:scale-105 transition-transform duration-300"
+              className=" group-hover:scale-105 transition-transform duration-300"
             />
           </div>
         </a>
@@ -165,17 +165,13 @@ const Hero: React.FC = () => {
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
-      <RippleGrid
-    enableRainbow={false}
-    gridColor="#ffffff"
-    rippleIntensity={0.05}
-    gridSize={10}
-    gridThickness={15}
-    mouseInteraction={true}
-    mouseInteractionRadius={1.2}
-    opacity={0.8}
-  />
-
+        <Ballpit
+          count={100}
+          gravity={0.7}
+          friction={0.8}
+          wallBounce={0.95}
+          followCursor={false}
+        />
       </div>
       <div className="absolute inset-0 hero-gradient z-10">
         <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>
@@ -193,13 +189,17 @@ const Hero: React.FC = () => {
           ref={titleRef}
           className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
         >
-          <FuzzyText
-            baseIntensity={0.2}
-            hoverIntensity={0.5}
-            enableHover={true}
-          >
-            Jay Sarvaiya
-          </FuzzyText>
+          <Shuffle
+            text="Jay Sarvaiya"
+            tag="span"
+            shuffleDirection="right"
+            duration={0.6}
+            stagger={0.05}
+            animationMode="evenodd"
+            triggerOnHover={true}
+            scrambleCharset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+            onShuffleComplete={() => console.log("Name shuffle complete")}
+          />
         </h1>
 
         <TextPressure

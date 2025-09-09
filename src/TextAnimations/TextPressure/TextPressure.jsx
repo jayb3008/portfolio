@@ -161,7 +161,6 @@ const TextPressure = ({
         }
         .stroke span {
           position: relative;
-          color: ${textColor};
         }
         .stroke span::after {
           content: attr(data-char);
@@ -188,7 +187,6 @@ const TextPressure = ({
           transformOrigin: "center top",
           margin: 0,
           fontWeight: 100,
-          color: stroke ? undefined : textColor,
         }}
       >
         {chars.map((char, i) => (

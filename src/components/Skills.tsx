@@ -1,15 +1,23 @@
-import React, { useMemo, Suspense, useState, useEffect } from "react";
+import React, {
+  useMemo,
+  Suspense,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { skills } from "./skills/skillsData";
+import { skills, groupByCategory, title } from "./skills/skillCardsData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import ScrollFloat from "@/TextAnimations/ScrollFloat/ScrollFloat";
+import { Search } from "lucide-react";
 
 // Lazy load components
-const LazySkillCategory = React.lazy(() => import("./skills/SkillCategory"));
+const LazySkillCard = React.lazy(() => import("./skills/SkillCard"));
 
 const Skills: React.FC = () => {
   const isMobile = useIsMobile();
   const [isAnimationsReady, setIsAnimationsReady] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { scrollYProgress } = useScroll({
     offset: ["start end", "end start"],
   });
@@ -20,10 +28,6 @@ const Skills: React.FC = () => {
       visible: {
         opacity: 1,
         y: 0,
-        transition: {
-          duration: 0.8,
-          ease: [0.6, -0.05, 0.01, 0.99],
-        },
       },
     }),
     []
@@ -72,24 +76,33 @@ const Skills: React.FC = () => {
     [0.3, 1, 1, 0.3]
   );
 
+  // Group skills by category using the new structure
+  const groupedSkills = useMemo(() => {
+    return groupByCategory(searchTerm);
+  }, [searchTerm]);
+
   // Set animations ready after initial render
   useEffect(() => {
-    setIsAnimationsReady(true);
+    requestAnimationFrame(() => {
+      setIsAnimationsReady(true);
+    });
   }, []);
 
-  const MemoizedSkillCategories = useMemo(
+  const MemoizedSkillCards = useMemo(
     () =>
-      skills.map((skillCategory, categoryIndex) => (
+      skills.map((skill, index) => (
         <Suspense
-          key={skillCategory.category}
+          key={skill.slug}
           fallback={
-            <div className="h-48 bg-gray-200 animate-pulse rounded-lg" />
+            <div className="h-32 bg-gray-200 animate-pulse rounded-xl" />
           }
         >
-          <LazySkillCategory
-            category={skillCategory.category}
-            technologies={skillCategory.technologies}
-            categoryIndex={categoryIndex}
+          <LazySkillCard
+            name={skill.name}
+            color={skill.color}
+            delay={index}
+            logo={skill.logo}
+            slug={skill.slug}
           />
         </Suspense>
       )),
@@ -142,8 +155,12 @@ const Skills: React.FC = () => {
         style={{ y: backgroundY, opacity }}
       />
 
-      <div className="container mx-auto relative z-10">
-        <motion.div className="text-center mb-16" variants={fadeInUp}>
+      <div className="container mx-auto relative z-10 max-w-6xl">
+        <motion.div
+          className="text-center mb-12"
+          variants={fadeInUp}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             <ScrollFloat
               animationDuration={1}
@@ -152,13 +169,14 @@ const Skills: React.FC = () => {
               scrollEnd="bottom bottom-=40%"
               stagger={0.03}
             >
-              My Skills
+              {title}
             </ScrollFloat>
           </h2>
 
           <motion.p
-            className="text-lg text-foreground/80 max-w-3xl mx-auto"
+            className="text-lg text-foreground/80 max-w-3xl mx-auto mb-8"
             variants={fadeInUp}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
             I've worked with a variety of technologies in the web development
             world. Here's an overview of my technical skills and proficiency
@@ -166,11 +184,58 @@ const Skills: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
-          variants={staggerContainer}
-        >
-          {MemoizedSkillCategories}
+        {/* Skills by Category */}
+        <motion.div className="space-y-8" variants={staggerContainer}>
+          {groupedSkills.length === 0 ? (
+            <motion.div
+              className="flex flex-col items-center justify-center gap-3 py-12"
+              variants={fadeInUp}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="text-4xl">📦</div>
+              <p className="text-muted-foreground font-light">
+                Could not find anything...
+              </p>
+            </motion.div>
+          ) : (
+            groupedSkills.map((group, groupIndex) => (
+              <motion.div
+                key={group.category.slug}
+                variants={fadeInUp}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="space-y-5"
+              >
+                {/* Category Header with Divider */}
+                <div className="flex items-center gap-5">
+                  <div className="bg-muted-foreground h-px w-5" />
+                  <p className="text-muted-foreground text-lg font-medium">
+                    {group.category.name}
+                  </p>
+                  <div className="flex-1 bg-muted-foreground h-px" />
+                </div>
+
+                {/* Skills Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-5">
+                  {group.items.map((skill, index) => (
+                    <Suspense
+                      key={skill.slug}
+                      fallback={
+                        <div className="h-32 bg-gray-200 animate-pulse rounded-xl" />
+                      }
+                    >
+                      <LazySkillCard
+                        name={skill.name}
+                        color={skill.color}
+                        delay={index}
+                        logo={skill.logo}
+                        slug={skill.slug}
+                      />
+                    </Suspense>
+                  ))}
+                </div>
+              </motion.div>
+            ))
+          )}
         </motion.div>
 
         {MemoizedDecorativeElements}

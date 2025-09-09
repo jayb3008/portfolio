@@ -1,7 +1,61 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Performance optimizations */
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-display: swap;
+  }
+}
+
+/* Optimize animations for better performance */
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .will-change-auto {
+    will-change: auto;
+  }
+
+  /* GPU acceleration for smooth animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Optimize text rendering */
+  .text-optimized {
+    text-rendering: optimizeSpeed;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
 
 @layer base {
   :root {
@@ -95,7 +149,7 @@
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
-  
+
   html {
     @apply scroll-smooth;
   }
@@ -105,49 +159,61 @@
   .glass-morphism {
     @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)];
   }
-  
+
   .dark .glass-morphism {
     @apply bg-black/20 border-white/5;
   }
-  
+
   .light .glass-morphism {
     @apply bg-white/60 border-black/5 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.15)];
   }
-  
+
   .text-gradient {
     @apply bg-gradient-to-br from-foreground via-foreground/90 to-foreground/70 bg-clip-text text-transparent;
   }
-  
+
   .text-gradient-blue {
     @apply bg-gradient-to-br from-blue-400 via-blue-500 to-purple-600 bg-clip-text text-transparent;
   }
 
-  /* New animations inspired by reactbits.dev */
-  .shimmer-text {
-    @apply bg-gradient-to-r from-accent via-accent/50 to-accent bg-[length:200%_100%] bg-clip-text text-transparent animate-text-shimmer;
+  .text-gradient-theme {
+    @apply bg-gradient-to-br from-accent via-accent/90 to-primary bg-clip-text text-transparent;
   }
-  
-  .spotlight-effect {
-    @apply before:absolute before:h-80 before:w-80 before:rounded-full before:bg-accent/20 before:opacity-0 before:blur-3xl hover:before:opacity-100 before:animate-spotlight overflow-hidden relative;
+
+  /* Theme-aware skill components */
+  .skill-card-theme {
+    @apply transition-all duration-300;
   }
-  
-  .reveal-border {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-accent after:transition-all after:duration-300 hover:after:w-full;
+
+  .skill-card-theme:hover {
+    @apply transform -translate-y-1;
   }
-  
-  .glow-on-hover {
-    @apply transition-shadow duration-300 hover:animate-glow-pulse;
+
+  .dark .skill-card-theme:hover {
+    @apply shadow-xl shadow-accent/10;
   }
-  
-  .card-3d {
-    @apply transition-transform duration-300 hover:animate-card-rotate;
+
+  .light .skill-card-theme:hover {
+    @apply shadow-xl shadow-primary/10;
   }
-  
+
+  .skill-progress-theme {
+    @apply transition-all duration-300;
+  }
+
+  .dark .skill-progress-theme {
+    @apply shadow-sm shadow-accent/20;
+  }
+
+  .light .skill-progress-theme {
+    @apply shadow-sm shadow-accent/10;
+  }
+
   /* Light mode specific */
   .light .hero-gradient {
     @apply bg-gradient-to-b from-background/30 via-background/60 to-background/90;
   }
-  
+
   /* Dark mode specific */
   .dark .hero-gradient {
     @apply bg-gradient-to-b from-background/30 to-background;
@@ -208,4 +274,9 @@
 img {
   max-width: 100%;
   height: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
