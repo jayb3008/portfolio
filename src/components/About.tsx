@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ScrollFloat from "@/TextAnimations/ScrollFloat/ScrollFloat";
 import ScrollReveal from "@/TextAnimations/ScrollReveal/ScrollReveal";
 import SpotlightCard from "./SpotlightCard/SpotlightCard";
+import DecayCard from "./DecayCard/DecayCard";
 import Squares from "@/Backgrounds/Squares/Squares";
 import TiltedCard from "./TiltedCard/TiltedCard";
 
@@ -16,71 +17,76 @@ const About: React.FC = () => {
   const imageRef = useRef<HTMLImageElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
 
-  // Memoize animation configuration
-  const animationConfig = useMemo(
-    () => ({
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.2,
-    }),
-    []
-  );
-
   useEffect(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
     const content = contentRef.current;
+    const image = imageRef.current;
     const background = backgroundRef.current;
 
-    if (!section || !heading || !content || !background) return;
+    if (section && heading && content && image && background) {
+      // Background parallax effect
+      gsap.to(background, {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+      // Heading animation
+      gsap.fromTo(
+        heading,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
 
-    // Create timeline for better performance
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play none none none",
-      },
-    });
+      // Content animation
+      gsap.fromTo(
+        content,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
 
-    // Background parallax effect
-    gsap.to(background, {
-      yPercent: 30,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-
-    // Chain animations for better performance
-    tl.fromTo(
-      heading,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: animationConfig.duration,
-        ease: animationConfig.ease,
-      }
-    ).fromTo(
-      content,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: animationConfig.duration,
-        ease: animationConfig.ease,
-      },
-      `-=${animationConfig.duration * 0.8}`
-    );
-
-    return () => {
-      tl.kill();
-    };
-  }, [animationConfig]);
+      // Image animation
+      gsap.fromTo(
+        image,
+        { opacity: 0, x: 50 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          delay: 0.4,
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }
+  }, []);
 
   return (
     <section
@@ -89,12 +95,13 @@ const About: React.FC = () => {
       className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 bg-background relative overflow-hidden"
     >
       <div className="absolute inset-0 z-0 opacity-20">
+
         <Squares
           speed={0.5}
           squareSize={40}
-          direction="diagonal" // up, down, left, right, diagonal
-          borderColor="#fff"
-          hoverFillColor="#222"
+          direction='diagonal' // up, down, left, right, diagonal
+          borderColor='#fff'
+          hoverFillColor='#222'
         />
       </div>
       {/* Content container - increased z-index */}
@@ -103,13 +110,15 @@ const About: React.FC = () => {
           ref={headingRef}
           className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-16 text-center"
         >
+
           <ScrollFloat
             animationDuration={1}
-            ease="back.inOut(2)"
-            scrollStart="center bottom+=50%"
-            scrollEnd="bottom bottom-=40%"
+            ease='back.inOut(2)'
+            scrollStart='center bottom+=50%'
+            scrollEnd='bottom bottom-=40%'
             stagger={0.03}
           >
+
             About Me
           </ScrollFloat>
         </h2>
@@ -141,10 +150,7 @@ const About: React.FC = () => {
               with the latest technologies.
             </ScrollReveal>
             <div className="flex flex-wrap gap-4">
-              <SpotlightCard
-                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
-                spotlightColor="rgba(0, 229, 255, 0.2)"
-              >
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   3+
                 </h4>
@@ -152,10 +158,7 @@ const About: React.FC = () => {
                   Years Experience
                 </p>
               </SpotlightCard>
-              <SpotlightCard
-                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
-                spotlightColor="rgba(0, 229, 255, 0.2)"
-              >
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   15+
                 </h4>
@@ -163,10 +166,7 @@ const About: React.FC = () => {
                   Projects Completed
                 </p>
               </SpotlightCard>
-              <SpotlightCard
-                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
-                spotlightColor="rgba(0, 229, 255, 0.2)"
-              >
+              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   8+
                 </h4>
@@ -199,9 +199,13 @@ const About: React.FC = () => {
               showMobileWarning={false}
               showTooltip={false}
               displayOverlayContent={true}
-              overlayContent={<p className="tilted-card-demo-text"></p>}
+              overlayContent={
+                <p className="tilted-card-demo-text">
+                </p>
+              }
               imageClassName="grayscale hover:grayscale-0 transition-all duration-300"
             />
+
           </div>
         </div>
       </div>

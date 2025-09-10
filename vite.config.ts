@@ -19,91 +19,65 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    target: "esnext",
-    minify: "terser",
+    target: 'esnext',
+    minify: 'terser',
     cssMinify: true,
-    sourcemap: mode === "development",
+    sourcemap: mode === 'development',
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // React ecosystem
-          if (
-            id.includes("react") ||
-            id.includes("react-dom") ||
-            id.includes("react-router")
-          ) {
-            return "react-vendor";
-          }
-          // Three.js ecosystem
-          if (id.includes("three") || id.includes("@react-three")) {
-            return "three-vendor";
-          }
-          // Radix UI components
-          if (id.includes("@radix-ui")) {
-            return "ui-vendor";
-          }
-          // Animation libraries
-          if (
-            id.includes("framer-motion") ||
-            id.includes("gsap") ||
-            id.includes("@gsap")
-          ) {
-            return "animations";
-          }
-          // Form libraries
-          if (
-            id.includes("react-hook-form") ||
-            id.includes("@hookform") ||
-            id.includes("zod")
-          ) {
-            return "forms";
-          }
-          // Utility libraries
-          if (
-            id.includes("clsx") ||
-            id.includes("tailwind-merge") ||
-            id.includes("class-variance-authority")
-          ) {
-            return "utils";
-          }
-          // Node modules
-          if (id.includes("node_modules")) {
-            return "vendor";
-          }
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
+          'ui-vendor': [
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-alert-dialog',
+            '@radix-ui/react-aspect-ratio',
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-icons',
+            '@radix-ui/react-label',
+            '@radix-ui/react-navigation-menu',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-scroll-area',
+            '@radix-ui/react-select',
+            '@radix-ui/react-separator',
+            '@radix-ui/react-slot',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-tooltip',
+            '@tanstack/react-query'
+          ],
+          'animations': ['framer-motion', 'gsap'],
         },
-        chunkFileNames: "assets/[name]-[hash].js",
-        entryFileNames: "assets/[name]-[hash].js",
-        assetFileNames: "assets/[name]-[hash].[ext]",
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
       },
     },
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 1000,
     terserOptions: {
       compress: {
-        drop_console: mode === "production",
-        drop_debugger: mode === "production",
-        pure_funcs:
-          mode === "production" ? ["console.log", "console.info"] : [],
-        passes: 2,
-      },
-      mangle: {
-        safari10: true,
+        drop_console: mode === 'production',
+        drop_debugger: mode === 'production',
       },
     },
   },
   optimizeDeps: {
     include: [
-      "react",
-      "react-dom",
-      "react-router-dom",
-      "three",
-      "@react-three/fiber",
-      "@react-three/drei",
-      "@tanstack/react-query",
-      "framer-motion",
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'three',
+      '@react-three/fiber',
+      '@react-three/drei',
+      '@tanstack/react-query',
+      'framer-motion',
     ],
-    exclude: ["@lovable-tagger"],
+    exclude: ['@lovable-tagger'],
   },
   css: {
-    devSourcemap: mode === "development",
+    devSourcemap: mode === 'development',
   },
 }));

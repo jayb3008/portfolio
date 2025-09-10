@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo, useCallback } from "react";
+import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { projects } from "./projects/projectsData";
@@ -16,83 +16,76 @@ const Projects: React.FC = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const isMobile = useIsMobile();
 
-  // Memoize animation configuration
-  const animationConfig = useMemo(
-    () => ({
-      duration: 0.8,
-      ease: "power3.out",
-      stagger: 0.1,
-    }),
-    []
-  );
-
-  // Memoize project cards to prevent unnecessary re-renders
-  const memoizedProjects = useMemo(() => projects, []);
-
   useEffect(() => {
     const section = sectionRef.current;
     const heading = headingRef.current;
     const intro = introRef.current;
-    const cards = cardsRef.current.filter(Boolean);
+    const cards = cardsRef.current;
 
-    if (!section || !heading || !intro) return;
-
-    // Create timeline for better performance
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play reverse play reverse",
-      },
-    });
-
-    // Chain animations
-    tl.fromTo(
-      heading,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: animationConfig.duration,
-        ease: animationConfig.ease,
-      }
-    ).fromTo(
-      intro,
-      { opacity: 0, y: 20 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: animationConfig.duration,
-        ease: animationConfig.ease,
-      },
-      `-=${animationConfig.duration * 0.8}`
-    );
-
-    // Animate project cards with stagger
-    if (cards.length > 0) {
+    if (section && heading && intro) {
+      // Animate heading
       gsap.fromTo(
-        cards,
-        { opacity: 0, y: 50, scale: 0.95 },
+        heading,
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
-          duration: animationConfig.duration,
-          stagger: animationConfig.stagger,
-          ease: animationConfig.ease,
+          duration: 0.8,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 70%",
+            start: "top 80%",
             toggleActions: "play reverse play reverse",
           },
         }
       );
-    }
 
-    return () => {
-      tl.kill();
-    };
-  }, [isMobile, animationConfig]);
+      // Animate intro text
+      gsap.fromTo(
+        intro,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play reverse play reverse",
+          },
+        }
+      );
+
+      // Animate project cards with stagger
+      cards.forEach((card, index) => {
+        if (card) {
+          gsap.fromTo(
+            card,
+            {
+              opacity: 0,
+              y: 50,
+              scale: 0.95,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.8,
+              delay: index * 0.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play reverse play reverse",
+              },
+            }
+          );
+        }
+      });
+    }
+  }, [isMobile]);
 
   return (
     <section
@@ -107,9 +100,9 @@ const Projects: React.FC = () => {
         >
           <ScrollFloat
             animationDuration={1}
-            ease="back.inOut(2)"
-            scrollStart="center bottom+=40%"
-            scrollEnd="bottom bottom-=30%"
+            ease='back.inOut(2)'
+            scrollStart='center bottom+=40%'
+            scrollEnd='bottom bottom-=30%'
             stagger={0.03}
           >
             Featured Projects
@@ -125,10 +118,9 @@ const Projects: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {memoizedProjects.map((project, index) => (
+          {projects.map((project, index) => (
             <div
               key={project.title}
-              ref={(el) => (cardsRef.current[index] = el)}
               className="w-full"
             >
               <SpotlightCard

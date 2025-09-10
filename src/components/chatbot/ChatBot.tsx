@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MessageCircle } from "lucide-react";
@@ -16,20 +17,18 @@ const ChatBot: React.FC = () => {
   const { messages, isTyping, handleSendMessage } = useChatbot();
   const { theme } = useTheme();
 
+
   return (
     <>
       {/* Chat button (fixed position) */}
       <div className="fixed bottom-6 right-6 z-50">
         <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger
-            asChild
-            className="bg-transparent hover:bg-transparent"
-          >
+          <PopoverTrigger asChild className="bg-transparent hover:bg-transparent">
             <Button
-              className="group px-6 py-6 bg-transparent border  font-medium rounded-full transition-all duration-300 relative overflow-hidden"
+              className="group px-6 py-6 bg-transparent border border-white/20 hover:border-white/40 text-white font-medium rounded-full transition-all duration-300 relative overflow-hidden"
               size="icon"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent  to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
               <MessageCircle className="h-6 w-6" />
             </Button>
           </PopoverTrigger>
