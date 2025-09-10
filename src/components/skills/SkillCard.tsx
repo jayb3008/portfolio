@@ -49,7 +49,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
           scrollTrigger: {
             trigger: card,
             start: "top 95%",
-            toggleActions: "play none none none",
+            toggleActions: "play reverse play reverse",
           },
         }
       );
@@ -97,7 +97,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className={`relative flex h-24 cursor-pointer flex-col items-start justify-center overflow-hidden rounded-xl border border-foreground/10 p-3 transition-shadow duration-300 sm:h-28 sm:p-4`}
+      className={`relative flex h-24 cursor-pointer flex-col items-start justify-center overflow-hidden rounded-xl border border-foreground/10 p-3 sm:h-28 sm:p-4`}
       style={{
         opacity: 0, // Start with opacity 0 for GSAP
       }}
@@ -112,7 +112,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
       {/* Logo */}
       <div
         ref={logoRef}
-        className="absolute right-2 top-2 z-10 select-none text-4xl font-bold leading-none opacity-20 transition-colors duration-300 sm:text-5xl"
+        className="absolute right-2 top-2 z-10 select-none text-4xl font-bold leading-none opacity-20 sm:text-5xl"
       >
         {logo}
       </div>
@@ -120,7 +120,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
       {/* Skill Name */}
       <h3
         ref={nameRef}
-        className={`relative z-10 text-xs font-medium transition-colors duration-300 sm:text-sm`}
+        className={`relative z-10 text-xs font-medium sm:text-sm`}
       >
         {name}
       </h3>
