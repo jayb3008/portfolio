@@ -20,88 +20,110 @@ const SkillCard: React.FC<SkillCardProps> = ({
   slug,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const card = cardRef.current;
+    const overlay = overlayRef.current;
+    const logoEl = logoRef.current;
+    const nameEl = nameRef.current;
 
-    if (card) {
+    if (card && overlay && logoEl && nameEl) {
+      // Initial animation
       gsap.fromTo(
         card,
         {
           opacity: 0,
-          y: 30,
+          y: 50,
           scale: 0.9,
         },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.6,
-          delay: delay * 0.1,
-          ease: "power2.out",
+          duration: 0.5,
+          delay: delay * 0.05,
+          ease: "back.out(1.7)",
           scrollTrigger: {
             trigger: card,
-            start: "top 90%",
+            start: "top 95%",
             toggleActions: "play none none none",
           },
         }
       );
+
+      // Hover animation timeline
+      const tl = gsap.timeline({ paused: true });
+
+      tl.to(overlay, {
+        opacity: 0.5,
+        duration: 0.3,
+        ease: "power2.inOut",
+      })
+        .to(
+          card,
+          {
+            scale: 1.05,
+            boxShadow: `0 10px 15px -3px ${color}33, 0 4px 6px -2px ${color}1A`,
+            borderColor: color,
+            duration: 0.3,
+            ease: "power2.inOut",
+          },
+          0
+        )
+        .to(
+          [nameEl, logoEl],
+          {
+            color: "white",
+            duration: 0.3,
+            ease: "power2.inOut",
+          },
+          0
+        );
+
+      card.addEventListener("mouseenter", () => tl.play());
+      card.addEventListener("mouseleave", () => tl.reverse());
+
+      return () => {
+        card.removeEventListener("mouseenter", () => tl.play());
+        card.removeEventListener("mouseleave", () => tl.reverse());
+        tl.kill();
+      };
     }
-  }, [delay]);
+  }, [delay, color]);
 
   return (
     <div
       ref={cardRef}
-      className={`relative group cursor-pointer border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-200`}
+      className={`relative flex h-24 cursor-pointer flex-col items-start justify-center overflow-hidden rounded-xl border border-foreground/10 p-3 transition-shadow duration-300 sm:h-28 sm:p-4`}
       style={{
-        minHeight: "100px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "flex-start",
-        position: "relative",
-        overflow: "hidden",
-      }}
-      onMouseEnter={(e) => {
-        gsap.to(e.currentTarget, {
-          scale: 1.02,
-          duration: 0.2,
-          ease: "power2.out",
-        });
-      }}
-      onMouseLeave={(e) => {
-        gsap.to(e.currentTarget, {
-          scale: 1,
-          duration: 0.2,
-          ease: "power2.out",
-        });
+        opacity: 0, // Start with opacity 0 for GSAP
       }}
     >
-      {/* Logo/Initial Background */}
+      {/* Colored Hover Overlay */}
       <div
-        className="absolute top-2 right-2 text-4xl font-bold opacity-20 select-none "
-        style={{
-          fontSize: "3rem",
-          lineHeight: 1,
-          zIndex: 1,
-        }}
+        ref={overlayRef}
+        className="absolute inset-0 z-0 opacity-0"
+        style={{ backgroundColor: color, zIndex: 0 }}
+      />
+
+      {/* Logo */}
+      <div
+        ref={logoRef}
+        className="absolute right-2 top-2 z-10 select-none text-4xl font-bold leading-none opacity-20 transition-colors duration-300 sm:text-5xl"
       >
         {logo}
       </div>
 
       {/* Skill Name */}
       <h3
-        className={`text-sm font-medium relative z-10 `}
-        style={{
-          fontSize: "14px",
-          fontWeight: "500",
-        }}
+        ref={nameRef}
+        className={`relative z-10 text-xs font-medium transition-colors duration-300 sm:text-sm`}
       >
         {name}
       </h3>
-
-      {/* Hover Effect Overlay */}
-      <div className="absolute inset-0 bg-gray-100 opacity-0 group-hover:opacity-30 transition-opacity duration-200 rounded-lg" />
     </div>
   );
 };

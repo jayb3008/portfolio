@@ -41,16 +41,17 @@ const Index = () => {
           <>
             <NavBar />
             <main>
-              {
-                !isMobile &&
-
-                <TargetCursor
-                  spinDuration={2}
-                  hideDefaultCursor={true}
-                />
-              }
+              {!isMobile && (
+                <TargetCursor spinDuration={2} hideDefaultCursor={true} />
+              )}
               <Hero />
-              <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+              <Suspense
+                fallback={
+                  <div className="h-screen flex items-center justify-center">
+                    Loading...
+                  </div>
+                }
+              >
                 <About />
                 <Experience />
                 <Skills />

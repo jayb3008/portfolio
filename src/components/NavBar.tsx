@@ -124,12 +124,12 @@ const NavBar: React.FC = () => {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex w-full justify-end items-center ">
+        <div className="hidden lg:flex w-full justify-end items-center ">
           {MemoizedGooeyNav}
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center">
+        <div className="lg:hidden flex items-center">
           <button
             onClick={toggleMobileMenu}
             className="text-white p-2 ml-2 hover:text-accent transition-colors cursor-target"

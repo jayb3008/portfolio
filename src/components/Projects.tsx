@@ -61,15 +61,18 @@ const Projects: React.FC = () => {
       // Animate project cards with stagger
       cards.forEach((card, index) => {
         if (card) {
+          const direction = isMobile ? 0 : index % 2 === 0 ? -1 : 1;
           gsap.fromTo(
             card,
             {
               opacity: 0,
-              y: 50,
+              y: isMobile ? 50 : 0,
+              x: direction * 50,
               scale: 0.95,
             },
             {
               opacity: 1,
+              x: 0,
               y: 0,
               scale: 1,
               duration: 0.8,
@@ -100,9 +103,9 @@ const Projects: React.FC = () => {
         >
           <ScrollFloat
             animationDuration={1}
-            ease='back.inOut(2)'
-            scrollStart='center bottom+=40%'
-            scrollEnd='bottom bottom-=30%'
+            ease="back.inOut(2)"
+            scrollStart="center bottom+=40%"
+            scrollEnd="bottom bottom-=30%"
             stagger={0.03}
           >
             Featured Projects
@@ -121,6 +124,7 @@ const Projects: React.FC = () => {
           {projects.map((project, index) => (
             <div
               key={project.title}
+              ref={(el) => (cardsRef.current[index] = el)}
               className="w-full"
             >
               <SpotlightCard

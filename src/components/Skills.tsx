@@ -28,6 +28,9 @@ const Skills: React.FC = () => {
       visible: {
         opacity: 1,
         y: 0,
+        transition: {
+          duration: 0.5,
+        },
       },
     }),
     []
@@ -39,8 +42,8 @@ const Skills: React.FC = () => {
       visible: {
         opacity: 1,
         transition: {
-          staggerChildren: 0.2,
-          delayChildren: 0.3,
+          staggerChildren: 0.1,
+          delayChildren: 0.2,
         },
       },
     }),
@@ -54,7 +57,7 @@ const Skills: React.FC = () => {
         opacity: 1,
         scale: 1,
         transition: {
-          duration: 0.5,
+          duration: 0.3,
           ease: "easeOut",
         },
       },
@@ -113,7 +116,7 @@ const Skills: React.FC = () => {
     () => (
       <>
         <motion.div
-          className="absolute top-1/4 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-1/4 left-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-primary/10 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2],
@@ -125,7 +128,7 @@ const Skills: React.FC = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 right-0 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-secondary/10 rounded-full blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
             opacity: [0.4, 0.2, 0.4],
@@ -144,10 +147,11 @@ const Skills: React.FC = () => {
   return (
     <motion.section
       id="skills"
-      className="relative py-24 px-6 md:px-12 overflow-hidden"
+      className="relative overflow-hidden px-6 py-16 md:px-8 md:py-24"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
+      variants={staggerContainer}
     >
       {/* Animated background */}
       <motion.div
@@ -155,13 +159,13 @@ const Skills: React.FC = () => {
         style={{ y: backgroundY, opacity }}
       />
 
-      <div className="container mx-auto relative z-10 max-w-6xl">
+      <div className="container mx-auto relative z-10 max-w-7xl">
         <motion.div
-          className="text-center mb-12"
-          variants={fadeInUp}
+          className="mb-10 text-center md:mb-16"
+          variants={fadeInUp} // This now has a faster transition from useMemo
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="mb-4 px-2 text-3xl font-bold md:text-5xl">
             <ScrollFloat
               animationDuration={1}
               ease="back.inOut(2)"
@@ -174,8 +178,8 @@ const Skills: React.FC = () => {
           </h2>
 
           <motion.p
-            className="text-lg text-foreground/80 max-w-3xl mx-auto mb-8"
-            variants={fadeInUp}
+            className="mx-auto mb-8 max-w-3xl px-2 text-base text-foreground/80 md:text-lg"
+            variants={fadeInUp} // This now has a faster transition from useMemo
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             I've worked with a variety of technologies in the web development
@@ -188,12 +192,12 @@ const Skills: React.FC = () => {
         <motion.div className="space-y-8" variants={staggerContainer}>
           {groupedSkills.length === 0 ? (
             <motion.div
-              className="flex flex-col items-center justify-center gap-3 py-12"
+              className="flex flex-col items-center justify-center gap-3 py-8"
               variants={fadeInUp}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <div className="text-4xl">📦</div>
-              <p className="text-muted-foreground font-light">
+              <p className="text-base font-light text-muted-foreground">
                 Could not find anything...
               </p>
             </motion.div>
@@ -202,25 +206,25 @@ const Skills: React.FC = () => {
               <motion.div
                 key={group.category.slug}
                 variants={fadeInUp}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                transition={{ duration: 0.5, ease: "easeOut" }} // This transition is fine
                 className="space-y-5"
               >
                 {/* Category Header with Divider */}
-                <div className="flex items-center gap-5">
-                  <div className="bg-muted-foreground h-px w-5" />
-                  <p className="text-muted-foreground text-lg font-medium">
+                <div className="flex items-center gap-4 px-2">
+                  <div className="h-px w-4 bg-muted-foreground" />
+                  <p className="whitespace-nowrap text-lg font-medium text-muted-foreground">
                     {group.category.name}
                   </p>
-                  <div className="flex-1 bg-muted-foreground h-px" />
+                  <div className="h-px flex-1 bg-muted-foreground" />
                 </div>
 
-                {/* Skills Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-5">
+                {/* Skills Grid - Responsive grid with better breakpoints */}
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                   {group.items.map((skill, index) => (
                     <Suspense
                       key={skill.slug}
                       fallback={
-                        <div className="h-32 bg-gray-200 animate-pulse rounded-xl" />
+                        <div className="h-24 animate-pulse rounded-xl bg-gray-200 sm:h-28" />
                       }
                     >
                       <LazySkillCard
