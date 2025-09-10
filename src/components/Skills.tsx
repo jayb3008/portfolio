@@ -16,7 +16,7 @@ const Skills: React.FC = () => {
     () => ({
       hidden: { opacity: 0, y: 50 },
       visible: {
-        opacity: 1,
+        opacity: 0.5,
         y: 0,
         transition: {
           duration: 0.5,
