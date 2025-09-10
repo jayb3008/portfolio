@@ -10,13 +10,18 @@ interface MenuItemProps {
   text: string;
   image: string;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
 interface FlowingMenuProps {
   items?: MenuItemProps[];
+  onClick?: () => void;
 }
 
-const FlowingMenu: React.FC<FlowingMenuProps> = ({ items = [] }) => {
+const FlowingMenu: React.FC<FlowingMenuProps> = ({
+  items = [],
+  onClick = () => {},
+}) => {
   return (
     <div className="w-full h-full overflow-hidden">
       <nav className="flex flex-col h-full m-0 p-0">
@@ -28,7 +33,13 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({ items = [] }) => {
   );
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, isActive }) => {
+const MenuItem: React.FC<MenuItemProps> = ({
+  link,
+  text,
+  image,
+  isActive,
+  onClick = () => {},
+}) => {
   const itemRef = React.useRef<HTMLDivElement>(null);
   const marqueeRef = React.useRef<HTMLDivElement>(null);
   const marqueeInnerRef = React.useRef<HTMLDivElement>(null);
@@ -39,7 +50,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, isActive }) => {
     mouseX: number,
     mouseY: number,
     width: number,
-    height: number,
+    height: number
   ): "top" | "bottom" => {
     const topEdgeDist = Math.pow(mouseX - width / 2, 2) + Math.pow(mouseY, 2);
     const bottomEdgeDist =
@@ -55,7 +66,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, isActive }) => {
       ev.clientX - rect.left,
       ev.clientY - rect.top,
       rect.width,
-      rect.height,
+      rect.height
     );
 
     const tl = gsap.timeline({ defaults: animationDefaults });
@@ -72,13 +83,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, isActive }) => {
       ev.clientX - rect.left,
       ev.clientY - rect.top,
       rect.width,
-      rect.height,
+      rect.height
     );
 
     const tl = gsap.timeline({ defaults: animationDefaults }) as TimelineMax;
     tl.to(marqueeRef.current, { y: edge === "top" ? "-101%" : "101%" }).to(
       marqueeInnerRef.current,
-      { y: edge === "top" ? "101%" : "-101%" },
+      { y: edge === "top" ? "101%" : "-101%" }
     );
   };
 
@@ -98,16 +109,19 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image, isActive }) => {
 
   return (
     <div
-      className={`flex-1 relative overflow-hidden text-center shadow-[0_-1px_0_0_#fff] ${isActive ? "bg-white" : ""
-        }`}
+      className={`flex-1 relative overflow-hidden text-center shadow-[0_-1px_0_0_#fff] ${
+        isActive ? "bg-white" : ""
+      }`}
       ref={itemRef}
     >
       <a
-        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold ${isActive ? "text-[#060606]" : "text-white hover:text-[#060606]"
-          } text-[4vh] focus:text-white focus-visible:text-[#060606]`}
         href={link}
+        className={`flex items-center justify-center h-full relative cursor-pointer uppercase no-underline font-semibold ${
+          isActive ? "text-[#060606]" : "text-white hover:text-[#060606]"
+        } text-[4vh] focus:text-white focus-visible:text-[#060606]`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={onClick}
       >
         {text}
       </a>

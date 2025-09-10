@@ -11,6 +11,7 @@ import { ArrowDown } from "lucide-react";
 import BlurText from "../TextAnimations/BlurText/BlurText";
 import TextPressure from "../TextAnimations/TextPressure/TextPressure";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import Ballpit from "./Ballpit";
 import Shuffle from "./Shuffle";
 
@@ -32,6 +33,7 @@ const Hero: React.FC = () => {
   const arrowRef = useRef<HTMLDivElement>(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isAnimationsReady, setIsAnimationsReady] = useState(false);
+  const isMobile = useIsMobile();
 
   const backgrounds = useMemo(
     () => [
@@ -161,15 +163,17 @@ const Hero: React.FC = () => {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      <div className="absolute inset-0">
-        <Ballpit
-          count={100}
-          gravity={0.7}
-          friction={0.8}
-          wallBounce={0.95}
-          followCursor={false}
-        />
-      </div>
+      {!isMobile && (
+        <div className="absolute inset-0">
+          <Ballpit
+            count={100}
+            gravity={0.7}
+            friction={0.8}
+            wallBounce={0.95}
+            followCursor={false}
+          />
+        </div>
+      )}
       <div className="absolute inset-0 hero-gradient z-10">
         <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>
         <div className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-background/20 to-transparent"></div>
@@ -186,17 +190,19 @@ const Hero: React.FC = () => {
           ref={titleRef}
           className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6"
         >
-          <Shuffle
-            text="Jay Sarvaiya"
-            tag="span"
-            shuffleDirection="right"
-            duration={0.6}
-            stagger={0.05}
-            animationMode="evenodd"
-            triggerOnHover={true}
-            scrambleCharset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-            onShuffleComplete={() => console.log("Name shuffle complete")}
-          />
+          <Suspense fallback={<div>Jay Sarvaiya</div>}>
+            <Shuffle
+              text="Jay Sarvaiya"
+              tag="span"
+              shuffleDirection="right"
+              duration={0.6}
+              stagger={0.05}
+              animationMode="evenodd"
+              triggerOnHover={true}
+              scrambleCharset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+              onShuffleComplete={() => console.log("Name shuffle complete")}
+            />
+          </Suspense>
         </h1>
 
         <TextPressure
