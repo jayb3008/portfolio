@@ -14,6 +14,7 @@ import TextPressure from "../TextAnimations/TextPressure/TextPressure";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Ballpit from "./Ballpit";
 import Shuffle from "./Shuffle";
+import RippleGrid from "./RippleGrid";
 
 // Lazy load components
 const LazyMagnetLines = React.lazy(
@@ -163,16 +164,29 @@ const Hero: React.FC = () => {
 
   return (
     <section id="home" className="relative h-screen w-full overflow-hidden">
-      {!isMobile && (
+      {!isMobile ? (
         <div className="absolute inset-0">
           <Ballpit
             count={100}
-            gravity={0.7}
+            gravity={0.2}
             friction={0.8}
             wallBounce={0.95}
             followCursor={false}
           />
         </div>
+      ) : (
+        <div className="absolute inset-0">
+          
+            <RippleGrid
+    enableRainbow={false}
+    rippleIntensity={0.05}
+    gridSize={10}
+    gridThickness={15}
+    mouseInteraction={true}
+    mouseInteractionRadius={1.2}
+    opacity={0.8}
+            />
+            </div>
       )}
       <div className="absolute inset-0 hero-gradient z-10">
         <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-background/80 to-transparent"></div>

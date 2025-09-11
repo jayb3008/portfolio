@@ -75,6 +75,7 @@ const NavBar: React.FC = () => {
         pillColor="#ffffff"
         hoveredPillTextColor="#ffffff"
         pillTextColor="#000000"
+        
       />
     ),
     [navItems, activeSection]
