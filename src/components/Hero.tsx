@@ -168,7 +168,7 @@ const Hero: React.FC = () => {
         <div className="absolute inset-0">
           <Ballpit
             count={100}
-            gravity={0.2}
+            gravity={0.7}
             friction={0.8}
             wallBounce={0.95}
             followCursor={false}
