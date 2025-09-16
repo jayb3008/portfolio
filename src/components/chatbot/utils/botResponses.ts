@@ -1,4 +1,3 @@
-
 // Sample responses for the chatbot
 // Enhanced bot responses with categories
 export const botResponses = {
@@ -14,7 +13,7 @@ export const botResponses = {
   ],
   contact: [
     "You can reach Jay through email at jay32402@gmail.com",
-    "Feel free to connect with Jay on LinkedIn at https://www.linkedin.com/in/jay-sarvaiya-6728b5228/",
+    "Feel free to connect with Jay on LinkedIn at https://www.linkedin.com/in/jay-sarvaiya-reactjs/",
     "You can find Jay's projects on GitHub at https://github.com/jayb3008",
   ],
   projects: [
@@ -30,7 +29,9 @@ export const botResponses = {
 };
 
 // Function to determine response category based on user input
-export const getResponseCategory = (input: string): keyof typeof botResponses => {
+export const getResponseCategory = (
+  input: string
+): keyof typeof botResponses => {
   const lowerInput = input.toLowerCase();
 
   if (
@@ -65,7 +66,9 @@ export const getResponseCategory = (input: string): keyof typeof botResponses =>
 };
 
 // Get a random response from a specific category
-export const getResponseFromCategory = (category: keyof typeof botResponses) => {
+export const getResponseFromCategory = (
+  category: keyof typeof botResponses
+) => {
   const responses = botResponses[category];
   return responses[Math.floor(Math.random() * responses.length)];
 };

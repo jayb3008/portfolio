@@ -45,6 +45,7 @@
     "lenis": "^1.3.8",
     "lovable-tagger": "^1.1.8",
     "lucide-react": "^0.543.0",
+    "motion": "^12.23.12",
     "next-themes": "^0.3.0",
     "ogl": "^1.0.11",
     "postprocessing": "^6.37.7",

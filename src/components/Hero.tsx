@@ -8,18 +8,15 @@ import React, {
 } from "react";
 import gsap from "gsap";
 import { ArrowDown } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+
 import BlurText from "../TextAnimations/BlurText/BlurText";
 import TextPressure from "../TextAnimations/TextPressure/TextPressure";
 
-import { useIsMobile } from "@/hooks/use-mobile";
 import Ballpit from "./Ballpit";
 import Shuffle from "./Shuffle";
 import RippleGrid from "./RippleGrid";
 
-// Lazy load components
-const LazyMagnetLines = React.lazy(
-  () => import("../Animations/MagnetLines/MagnetLines")
-);
 
 // Preload critical images
 const preloadImage = (src: string) => {

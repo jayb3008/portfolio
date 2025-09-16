@@ -1,4 +1,3 @@
-
 // Profile information for AI training
 export const profileInfo = {
   personal: {
@@ -10,7 +9,7 @@ export const profileInfo = {
   },
   social: {
     github: "https://github.com/jayb3008",
-    linkedin: "https://www.linkedin.com/in/jay-sarvaiya-6728b5228/",
+    linkedin: "https://www.linkedin.com/in/jay-sarvaiya-reactjs/",
     instagram: "https://www.instagram.com/jay.darji.30",
   },
   skills: [
@@ -32,9 +31,9 @@ export const profileInfo = {
 
 // System prompt for ChatGPT
 export const getSystemPrompt = (): string => {
-  return `You are an AI assistant for ${
-    profileInfo.personal.name
-  }, a ${profileInfo.personal.role}. 
+  return `You are an AI assistant for ${profileInfo.personal.name}, a ${
+    profileInfo.personal.role
+  }. 
 You should help visitors learn about Jay's skills, experience, and work.
 
 Key Information:

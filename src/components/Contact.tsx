@@ -353,7 +353,7 @@ const Contact: React.FC = () => {
                     activeTransition="transform 0.2s ease-out"
                   >
                     <a
-                      href="https://www.linkedin.com/in/jay-sarvaiya-6728b5228/"
+                      href="https://www.linkedin.com/in/jay-sarvaiya-reactjs/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-foreground/5 hover:bg-primary/20 border border-foreground/10 flex items-center justify-center transition-colors"

@@ -95,13 +95,12 @@ const About: React.FC = () => {
       className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 md:px-12 bg-background relative overflow-hidden"
     >
       <div className="absolute inset-0 z-0 opacity-20">
-
         <Squares
           speed={0.5}
           squareSize={40}
-          direction='diagonal' // up, down, left, right, diagonal
-          borderColor='#fff'
-          hoverFillColor='#222'
+          direction="diagonal" // up, down, left, right, diagonal
+          borderColor="#fff"
+          hoverFillColor="#222"
         />
       </div>
       {/* Content container - increased z-index */}
@@ -110,15 +109,13 @@ const About: React.FC = () => {
           ref={headingRef}
           className="text-2xl sm:text-3xl md:text-4xl font-bold mb-10 sm:mb-16 text-center"
         >
-
           <ScrollFloat
             animationDuration={1}
-            ease='back.inOut(2)'
-            scrollStart='center bottom+=50%'
-            scrollEnd='bottom bottom-=40%'
+            ease="back.inOut(2)"
+            scrollStart="center bottom+=50%"
+            scrollEnd="bottom bottom-=40%"
             stagger={0.03}
           >
-
             About Me
           </ScrollFloat>
         </h2>
@@ -150,7 +147,10 @@ const About: React.FC = () => {
               with the latest technologies.
             </ScrollReveal>
             <div className="flex flex-wrap gap-4">
-              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
+              <SpotlightCard
+                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
+                spotlightColor="rgba(0, 229, 255, 0.2)"
+              >
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   3+
                 </h4>
@@ -158,7 +158,10 @@ const About: React.FC = () => {
                   Years Experience
                 </p>
               </SpotlightCard>
-              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
+              <SpotlightCard
+                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
+                spotlightColor="rgba(0, 229, 255, 0.2)"
+              >
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   15+
                 </h4>
@@ -166,7 +169,10 @@ const About: React.FC = () => {
                   Projects Completed
                 </p>
               </SpotlightCard>
-              <SpotlightCard className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]" spotlightColor="rgba(0, 229, 255, 0.2)">
+              <SpotlightCard
+                className="glass-morphism p-3 sm:p-4 rounded-lg flex-1 min-w-[100px]"
+                spotlightColor="rgba(0, 229, 255, 0.2)"
+              >
                 <h4 className="font-bold text-base sm:text-lg mb-1 sm:mb-2 text-foreground">
                   8+
                 </h4>
@@ -187,7 +193,7 @@ const About: React.FC = () => {
               />
             </div> */}
             <TiltedCard
-              imageSrc="profile.jpg"
+              imageSrc="profile.png"
               altText="Jay Sarvaiya - Software Developer"
               captionText=""
               containerHeight="300px"
@@ -199,13 +205,9 @@ const About: React.FC = () => {
               showMobileWarning={false}
               showTooltip={false}
               displayOverlayContent={true}
-              overlayContent={
-                <p className="tilted-card-demo-text">
-                </p>
-              }
+              overlayContent={<p className="tilted-card-demo-text"></p>}
               imageClassName="grayscale hover:grayscale-0 transition-all duration-300"
             />
-
           </div>
         </div>
       </div>
