@@ -8,7 +8,6 @@ interface Project {
 }
 
 export const projects: Project[] = [
-  
   {
     title: "E-Commerce Platform",
     description:
@@ -46,7 +45,7 @@ export const projects: Project[] = [
     tech: ["React Native", "Node.js", "MongoDB", "Redux"],
     image:
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=500&fit=crop",
-    link: "#",
+    link: "https://peak-pursuit-web.vercel.app/",
     type: "mobile",
   },
   {
@@ -56,7 +55,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "Three.js", "Node.js", "PostgreSQL"],
     image:
       "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=500&fit=crop",
-    link: "#",
+    link: "https://propverse-virtual-home.vercel.app/",
     type: "web",
   },
 ];

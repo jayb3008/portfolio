@@ -43,10 +43,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           />
         </div>
         <div className="p-6">
-          <h3 className="shimmer-text text-xl font-bold mb-3">
-            {project.title}
-          </h3>
-          <p className="text-foreground/70 mb-4 text-sm">{project.description}</p>
+          <h3 className="text-xl font-bold mb-3">{project.title}</h3>
+          <p className="text-foreground/70 mb-4 text-sm">
+            {project.description}
+          </p>
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tech.map((tech) => (
               <span
@@ -59,14 +59,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </div>
           <button
             onClick={() => setIsOpen(true)}
-            className="inline-block text-accent hover:text-accent/80 text-sm font-medium transition-colors reveal-border cursor-target"
+            className="inline-block text-sm font-medium transition-colors cursor-target"
           >
             <BlurText
               text="View Project →"
               delay={100}
               animateBy="words"
               direction="top"
-              className="text-accent hover:text-accent/80"
             />
           </button>
         </div>
@@ -75,7 +74,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[90vw] h-[90vh] p-0 gap-0">
           <DialogHeader className="px-6 py-4 border-b">
-            <DialogTitle className="text-xl font-semibold">{project.title}</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">
+              {project.title}
+            </DialogTitle>
           </DialogHeader>
           <div className="flex-1 w-full h-[calc(90vh-80px)] bg-background/95">
             {project.type === "mobile" ? (

@@ -19,7 +19,7 @@ const Experience = () => {
 
   const experiences = [
     {
-      title: "Sr. React Developer",
+      title: "React Developer",
       company: "Thinktanker",
       location: "Ahmedabad",
       period: "Jan, 2025 - Present",
@@ -34,7 +34,7 @@ const Experience = () => {
       skills: ["React.js", "Next.js", "React Native", "Redux", "REST APIs"],
     },
     {
-      title: "Front-End Developer",
+      title: "Full-Stack Developer",
       company: "Technooka",
       location: "Ahmedabad",
       period: "Aug, 2024 - Dec, 2024",
@@ -53,11 +53,13 @@ const Experience = () => {
         "React Native",
         "Redux",
         "NgRx",
+        "Express.js",
+        "Node.js",
         "MongoDB",
       ],
     },
     {
-      title: "Junior Front-End Developer",
+      title: "Frontend Developer",
       company: "Groovy Technoweb PVT LTD",
       location: "Nadiad",
       period: "Jun, 2022 - Aug, 2024",
@@ -72,7 +74,7 @@ const Experience = () => {
       skills: ["React.js", "Next.js", "React Native", "Redux", "REST APIs"],
     },
     {
-      title: "Intern Front-End Developer",
+      title: "Frontend Intern",
       company: "Groovy Web LLP",
       location: "Nadiad",
       period: "Feb, 2022 - May, 2022",
@@ -244,12 +246,13 @@ const Experience = () => {
               <div
                 key={index}
                 ref={(el) => (cardsRef.current[index] = el)}
-                className={`relative flex items-center ${isMobile
-                  ? "flex-col"
-                  : index % 2 === 0
+                className={`relative flex items-center ${
+                  isMobile
+                    ? "flex-col"
+                    : index % 2 === 0
                     ? "md:justify-start"
                     : "md:justify-end"
-                  }`}
+                }`}
               >
                 {/* Timeline dot - hidden on mobile */}
                 {!isMobile && (
@@ -259,16 +262,18 @@ const Experience = () => {
                 {/* Connector line - hidden on mobile */}
                 {!isMobile && (
                   <div
-                    className={`timeline-connector absolute left-1/2 top-1/2 w-24 h-0.5 bg-gradient-to-r ${index % 2 === 0
-                      ? "from-primary/50 to-transparent transform -translate-x-full origin-right"
-                      : "from-transparent to-primary/50 origin-left"
-                      } hidden md:block`}
+                    className={`timeline-connector absolute left-1/2 top-1/2 w-24 h-0.5 bg-gradient-to-r ${
+                      index % 2 === 0
+                        ? "from-primary/50 to-transparent transform -translate-x-full origin-right"
+                        : "from-transparent to-primary/50 origin-left"
+                    } hidden md:block`}
                   ></div>
                 )}
 
                 <Card
-                  className={`relative w-full md:w-[calc(50%-3rem)] border-none bg-background/30 backdrop-blur-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.01] ${!isMobile && index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
-                    }`}
+                  className={`relative w-full md:w-[calc(50%-3rem)] border-none bg-background/30 backdrop-blur-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.01] ${
+                    !isMobile && index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
+                  }`}
                 >
                   <SpotlightCard
                     className="glass-morphism p-3 sm:p-4 md:p-6 rounded-lg flex-1"
